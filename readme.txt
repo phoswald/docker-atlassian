@@ -4,15 +4,12 @@ openjdk-jre-8
 
 Overview:
 - Based on OpenSUSE
-- RPM has to be downloaded from Oracle
 
 Build:
 $ docker build -t philip/openjdk-jre-8 .
 
 Test:
 $ docker run -it --rm philip/openjdk-jre-8 java -version
-
-TODO: make it smaller!
 
 
 oracle-jre-8
@@ -53,7 +50,7 @@ Jira Software
 
 Overview:
 - Dockerfile taken from https://github.com/cptactionhank/docker-atlassian-jira-software
-- Based on OpenSUSE and Oracle JRE 8
+- Based on OpenSUSE and OpenJDK JRE 8
 
 Build:
 $ docker build -t philip/jira-software .
