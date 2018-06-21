@@ -7,4 +7,5 @@ COPY dependencies/jre-8u172-linux-x64.rpm /tmp
 RUN set -x \
  && zypper in --no-confirm --name --no-recommends which less nano curl tar \
  && rpm -i /tmp/jre-8u172-linux-x64.rpm \
- && rm /tmp/jre-8u172-linux-x64.rpm
+ && rm /tmp/jre-8u172-linux-x64.rpm \
+ && echo "Europe/Zurich" > /etc/timezone

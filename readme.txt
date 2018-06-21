@@ -6,7 +6,7 @@ Overview:
 - Based on OpenSUSE
 
 Build:
-$ docker build -t philip/openjdk-jre-8 .
+$ docker build -t philip/openjdk-jre-8 openjdk-jre-8/
 
 Test:
 $ docker run -it --rm philip/openjdk-jre-8 java -version
@@ -20,7 +20,7 @@ Overview:
 - RPM has to be downloaded from Oracle
 
 Build:
-$ docker build -t philip/oracle-jre-8 .
+$ docker build -t philip/oracle-jre-8 oracle-jre-8/
 
 Test:
 $ docker run -it --rm philip/oracle-jre-8 java -version
@@ -36,7 +36,7 @@ Overview:
 - Based on OpenSUSE and Oracle JRE 8
 
 Build:
-$ docker build -t philip/confluence .
+$ docker build -t philip/confluence confluence/
 
 Test:
 $ docker run -d --name myconfluence -p 8090:8090 philip/confluence
@@ -53,7 +53,7 @@ Overview:
 - Based on OpenSUSE and OpenJDK JRE 8
 
 Build:
-$ docker build -t philip/jira-software .
+$ docker build -t philip/jira-software jira-software/
 
 Run:
 $ docker run -d --name myjira -p 8080:8080 philip/jira-software
@@ -82,9 +82,6 @@ Achtung:
 TODO: DB Config
 TODO: Volume permissions
 TODO: Oracle JDK
-TODO: Time zone
-- Meldung: Die Zeitzone Ihres Computers stimmt nicht mit der Zeitzonenvoreinstellung von JIRA ((GMT+00:00) UTC) überein.
-- Link: http://localhost:8080/secure/ViewProfile.jspa#zone-set
 TODO: JVM Memory Settings
 TODO: Sprachen: genügt "Deutsch (Deutschland)"?
 
