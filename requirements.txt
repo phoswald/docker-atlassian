@@ -1,0 +1,34 @@
+
+
+Jira 7.9
+========
+
+URLs:
+- Supported Platfroms: https://confluence.atlassian.com/adminjiraserver079/supported-platforms-950288096.html
+- Installing from Archive File: https://confluence.atlassian.com/adminjiraserver079/installing-jira-applications-on-linux-from-archive-file-950288110.html
+- Oracle Drivers: http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html
+
+Java:
+- Oracle JRE / JDK: Java 1.8
+
+Oracle:
+- Oracle 12c R1
+- JIRA will not work on Oracle Advanced Compression Option (ACO)
+- Supported Oracle databases use the 12.2.0.1
+
+PostgreSQL:
+- PostgreSQL 9.3 - 9.6:
+- JIRA is tested and bundled with the 9.4 JDBC driver. 
+
+H2 
+- (evaluation only)
+
+Tomcat:
+- We support Apache Tomcat 8.5.6. 
+- We don't support deploying multiple Atlassian applications in a single Tomcat container. 
+
+Hardware
+- NFS mounts are supported only for JIRA Data Center's shared home directory. 
+  They won't work for Server, or DC's local home directory due to Lucene requirements. 
+- Create a dedicated user account on the operating system to run JIRA.
+
