@@ -1,18 +1,19 @@
 
-openjdk-jre-8
+openjdk-jdk-8
 -------------
 
 Overview:
 - Based on OpenSUSE
 
 Build:
-$ docker build -t philip/openjdk-jre-8 openjdk-jre-8/
+$ docker build -t philip/openjdk-jdk-8 openjdk-jdk-8/
 
 Test:
-$ docker run -it --rm philip/openjdk-jre-8 java -version
+$ docker run -it --rm philip/openjdk-jdk-8 java -version
+$ docker run -it --rm philip/openjdk-jdk-8 javac -version
 
 
-oracle-jre-8
+oracle-jdk-8
 ------------
 
 Overview:
@@ -20,10 +21,11 @@ Overview:
 - RPM has to be downloaded from Oracle
 
 Build:
-$ docker build -t philip/oracle-jre-8 oracle-jre-8/
+$ docker build -t philip/oracle-jdk-8 oracle-jdk-8/
 
 Test:
-$ docker run -it --rm philip/oracle-jre-8 java -version
+$ docker run -it --rm philip/oracle-jdk-8 java -version
+$ docker run -it --rm philip/oracle-jdk-8 javac -version
 
 TODO: make it smaller!
 
@@ -33,7 +35,7 @@ Confluence
 
 Overview:
 - Dockerfile taken from https://github.com/cptactionhank/docker-atlassian-confluence
-- Based on OpenSUSE and Oracle JRE 8
+- Based on OpenSUSE and Oracle JDK 8
 
 Build:
 $ docker build -t philip/confluence confluence/
@@ -50,7 +52,7 @@ Jira Software
 
 Overview:
 - Dockerfile taken from https://github.com/cptactionhank/docker-atlassian-jira-software
-- Based on OpenSUSE and OpenJDK JRE 8
+- Based on OpenSUSE and Oracle JDK 8
 
 Build:
 $ docker build -t philip/jira-software jira-software/
@@ -59,6 +61,10 @@ Run:
 $ docker run -d --name myjira -p 8080:8080 philip/jira-software
 
 Volumes einrichten:
+$ sudo useradd -U jira
+$ sudo chown jira:jira test
+$ sudo chmod 755 test
+
 $ mkdir volumes/jira-home
 $ mkdir volumes/jira-logs
 $ chmod 777 volumes/jira-*
@@ -81,7 +87,6 @@ Achtung:
 
 TODO: DB Config
 TODO: Volume permissions
-TODO: Oracle JDK
 TODO: JVM Memory Settings
 TODO: Sprachen: genügt "Deutsch (Deutschland)"?
 
