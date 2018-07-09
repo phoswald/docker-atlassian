@@ -1,21 +1,39 @@
+FROM philip/oracle-jdk-8 AS prepare
+
+ENV JIRA_VERSION  7.9.1
+
+COPY dependencies/atlassian-jira-software-${JIRA_VERSION}.tar.gz /tmp/jira.tar.gz
+
+RUN set -x \
+ && zypper -n in --name --no-recommends tar
+
+RUN set -x \
+ && mkdir /tmp/jira \
+ && tar -xzf /tmp/jira.tar.gz --directory /tmp/jira --strip-components=1 \
+ && chown -R root:root /tmp/jira
+
+###############################################################################
+
 FROM philip/oracle-jdk-8
 
 # Configuration variables.
 ENV JIRA_HOME     /var/atlassian/jira
 ENV JIRA_INSTALL  /opt/atlassian/jira
-ENV JIRA_VERSION  7.9.2
+ENV JIRA_VERSION  7.9.1
+
+COPY --from=prepare /tmp/jira/ ${JIRA_INSTALL}
 
 # Install Atlassian JIRA and helper tools and setup initial home
 # directory structure.
 RUN set -x \
- && zypper in --no-confirm --name --no-recommends xmlstarlet \
- && zypper -n clean -a \
+#&& zypper in --no-confirm --name --no-recommends xmlstarlet \
+#&& zypper -n clean -a \
  && mkdir -p                "${JIRA_HOME}" \
  && mkdir -p                "${JIRA_HOME}/caches/indexes" \
  && chmod -R 700            "${JIRA_HOME}" \
  && chown -R daemon:daemon  "${JIRA_HOME}" \
  && mkdir -p                "${JIRA_INSTALL}/conf/Catalina" \
- && curl -Ls                "https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-software-${JIRA_VERSION}.tar.gz" | tar -xz --directory "${JIRA_INSTALL}" --strip-components=1 --no-same-owner \
+#&& curl -Ls                "https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-software-${JIRA_VERSION}.tar.gz" | tar -xz --directory "${JIRA_INSTALL}" --strip-components=1 --no-same-owner \
 #&&  tar -xzf               /tmp/atlassian-jira-software-${JIRA_VERSION}.tar.gz --directory "${JIRA_INSTALL}" --strip-components=1 --no-same-owner \
 #&& curl -Ls                "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.tar.gz" | tar -xz --directory "${JIRA_INSTALL}/lib" --strip-components=1 --no-same-owner "mysql-connector-java-5.1.38/mysql-connector-java-5.1.38-bin.jar" \
 #&& rm -f                   "${JIRA_INSTALL}/lib/postgresql-9.1-903.jdbc4-atlassian-hosted.jar" \
