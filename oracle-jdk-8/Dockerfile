@@ -2,18 +2,12 @@ FROM opensuse/leap:42.3
 
 ENV TZ=Europe/Zurich
 
-COPY dependencies/jdk-8u172-linux-x64.rpm /tmp
+ADD --chown=root:root dependencies/jdk-8u172-linux-x64.tar.gz /usr
 
 RUN set -x \
  && zypper -n in --name --no-recommends which less nano curl tar \
- && rpm -i /tmp/jdk-8u172-linux-x64.rpm \
- && rm /tmp/jdk-8u172-linux-x64.rpm \
+ && zypper -n clean -a \
+ && ln -s /usr/jdk1.8.0_172/bin/java /usr/bin/java \
+ && ln -s /usr/jdk1.8.0_172/bin/javac /usr/bin/javac \
  && echo $TZ > /etc/timezone
-
-# Installs the following (no environment variables are set):
-# - /usr/bin/java
-# - /usr/bin/javac
-# - /usr/java/jdk1.8.0_172-amd64/bin/java
-# - /usr/java/jdk1.8.0_172-amd64/bin/javac
-# - /usr/java/jdk1.8.0_172-amd64/jre/bin/java
 
