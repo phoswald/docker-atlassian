@@ -18,7 +18,7 @@ oracle-jdk-8
 
 Overview:
 - Based on OpenSUSE
-- RPM has to be downloaded from Oracle
+- TAR.GZ has to be downloaded from Oracle
 
 Build:
 $ docker build -t philip/oracle-jdk-8 oracle-jdk-8/
