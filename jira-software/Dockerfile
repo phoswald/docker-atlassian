@@ -1,6 +1,6 @@
 FROM philip/oracle-jdk-8 AS prepare
 
-ENV JIRA_VERSION  7.9.1
+ENV JIRA_VERSION  7.9.2
 
 COPY dependencies/atlassian-jira-software-${JIRA_VERSION}.tar.gz /tmp/jira.tar.gz
 
@@ -19,7 +19,7 @@ FROM philip/oracle-jdk-8
 # Configuration variables.
 ENV JIRA_HOME     /var/atlassian/jira
 ENV JIRA_INSTALL  /opt/atlassian/jira
-ENV JIRA_VERSION  7.9.1
+ENV JIRA_VERSION  7.9.2
 
 COPY --from=prepare /tmp/jira/ ${JIRA_INSTALL}
 
