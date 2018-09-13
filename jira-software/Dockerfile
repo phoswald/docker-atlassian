@@ -20,11 +20,11 @@ FROM philip/oracle-jdk-8
 ENV JIRA_HOME     /var/atlassian/jira
 ENV JIRA_INSTALL  /opt/atlassian/jira
 ENV JIRA_VERSION  7.9.2
+ENV CATALINA_OPTS -Xms500m -Xmx2500m -Dwho.is.cool=Philip
 
 COPY --from=prepare /tmp/jira/ ${JIRA_INSTALL}
 
-# Install Atlassian JIRA and helper tools and setup initial home
-# directory structure.
+# Install Atlassian JIRA and helper tools and setup initial home directory structure.
 RUN set -x \
 #&& zypper in --no-confirm --name --no-recommends xmlstarlet \
 #&& zypper -n clean -a \
@@ -45,7 +45,15 @@ RUN set -x \
  && chown -R daemon:daemon  "${JIRA_INSTALL}/conf" \
  && chown -R daemon:daemon  "${JIRA_INSTALL}/logs" \
  && chown -R daemon:daemon  "${JIRA_INSTALL}/temp" \
- && chown -R daemon:daemon  "${JIRA_INSTALL}/work" \
+ && chown -R daemon:daemon  "${JIRA_INSTALL}/work"
+
+# Tweak configuration
+RUN set -x \
+ && sed -i -r               's/^JVM_SUPPORT_RECOMMENDED_ARGS=/#&/g'                    "${JIRA_INSTALL}/bin/setenv.sh" \
+ && sed -i -r               's/^JVM_MINIMUM_MEMORY=/\#&/g'                             "${JIRA_INSTALL}/bin/setenv.sh" \
+ && sed -i -r               's/^JVM_MAXIMUM_MEMORY=/\#&/g'                             "${JIRA_INSTALL}/bin/setenv.sh" \
+ && sed -i -r               's/^(JAVA_OPTS=.*)-Xms\$\{JVM_MINIMUM_MEMORY\}(.*)/\1\2/g' "${JIRA_INSTALL}/bin/setenv.sh" \
+ && sed -i -r               's/^(JAVA_OPTS=.*)-Xmx\$\{JVM_MAXIMUM_MEMORY\}(.*)/\1\2/g' "${JIRA_INSTALL}/bin/setenv.sh" \
 #&& sed --in-place          "s/java version/openjdk version/g" "${JIRA_INSTALL}/bin/check-java.sh" \
  && echo -e                 "\njira.home=$JIRA_HOME" >> "${JIRA_INSTALL}/atlassian-jira/WEB-INF/classes/jira-application.properties" \
  && touch -d "@0"           "${JIRA_INSTALL}/conf/server.xml"

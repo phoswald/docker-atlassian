@@ -20,14 +20,14 @@ FROM philip/oracle-jdk-8
 ENV CONF_HOME     /var/atlassian/confluence
 ENV CONF_INSTALL  /opt/atlassian/confluence
 ENV CONF_VERSION  6.9.1
+ENV CATALINA_OPTS -Xms500m -Xmx2500m -Dwho.is.cool=Philip
 
 #ENV JAVA_CACERTS $JAVA_HOME/lib/security/cacerts
 ENV CERTIFICATE   $CONF_HOME/certificate
 
 COPY --from=prepare /tmp/confluence/ ${CONF_INSTALL}
 
-# Install Atlassian Confluence and helper tools and setup initial home
-# directory structure.
+# Install Atlassian Confluence and helper tools and setup initial home directory structure.
 RUN set -x \
  && zypper in --no-confirm --name --no-recommends xmlstarlet \
  && mkdir -p                "${CONF_HOME}" \
@@ -43,7 +43,10 @@ RUN set -x \
  && chown -R daemon:daemon  "${CONF_INSTALL}/conf" \
  && chown -R daemon:daemon  "${CONF_INSTALL}/temp" \
  && chown -R daemon:daemon  "${CONF_INSTALL}/logs" \
- && chown -R daemon:daemon  "${CONF_INSTALL}/work" \
+ && chown -R daemon:daemon  "${CONF_INSTALL}/work"
+
+# Tweak configuration
+RUN set -x \
  && echo -e                 "\nconfluence.home=$CONF_HOME" >> "${CONF_INSTALL}/confluence/WEB-INF/classes/confluence-init.properties" \
  && xmlstarlet              ed --inplace \
      --delete               "Server/@debug" \
@@ -55,6 +58,8 @@ RUN set -x \
      --delete               "Server/Service/Engine/Host/@debug" \
      --delete               "Server/Service/Engine/Host/Context/@debug" \
                             "${CONF_INSTALL}/conf/server.xml" \
+ && sed -i -r               's/^(CATALINA_OPTS=.*)(-Xms[0-9]+[a-zA-Z]+)(.*)/\1\3/g' "${CONF_INSTALL}/bin/setenv.sh" \
+ && sed -i -r               's/^(CATALINA_OPTS=.*)(-Xmx[0-9]+[a-zA-Z]+)(.*)/\1\3/g' "${CONF_INSTALL}/bin/setenv.sh" \
  && touch -d "@0"           "${CONF_INSTALL}/conf/server.xml"
 #&& chown daemon:daemon     "${JAVA_CACERTS}"
 

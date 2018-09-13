@@ -17,7 +17,7 @@ FROM opensuse/leap:42.3
 ENV TZ                Europe/Zurich
 ENV LANG              de_CH.UTF-8
 ENV LC_ALL            de_CH.UTF-8
-ENV JAVA_TOOL_OPTIONS -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=2
+ENV JAVA_TOOL_OPTIONS -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=2 -Dwho.am.i=Philip
 
 COPY --from=prepare /tmp/jdk /usr
 

@@ -27,25 +27,6 @@ Test:
 $ docker run -it --rm philip/oracle-jdk-8 java -version
 $ docker run -it --rm philip/oracle-jdk-8 javac -version
 
-TODO: make it smaller!
-
-
-Confluence
-----------
-
-Overview:
-- Dockerfile taken from https://github.com/cptactionhank/docker-atlassian-confluence
-- Based on OpenSUSE and Oracle JDK 8
-
-Build:
-$ docker build -t philip/confluence confluence/
-
-Test:
-$ docker run -d --name myconfluence -p 8090:8090 philip/confluence
-
-Achtung:
-- docker-entrypoint.sh muss ausführbar sein
-
 
 Jira Software
 -------------
@@ -54,21 +35,21 @@ Overview:
 - Dockerfile taken from https://github.com/cptactionhank/docker-atlassian-jira-software
 - Based on OpenSUSE and Oracle JDK 8
 
+Achtung:
+- docker-entrypoint.sh muss ausführbar sein
+
 Build:
 $ docker build -t philip/jira-software jira-software/
 
-Run:
+Test:
 $ docker run -d --name myjira -p 8080:8080 philip/jira-software
 
 Volumes einrichten:
-$ sudo useradd -U jira
-$ sudo chown jira:jira test
-$ sudo chmod 755 test
-
 $ mkdir volumes/jira-home
 $ mkdir volumes/jira-logs
 $ chmod 777 volumes/jira-*
 
+Run:
 $ docker run -d --name myjira --rm \
   -p 8080:8080 \
   -v ~/volumes/jira-home:/var/atlassian/jira \
@@ -82,11 +63,33 @@ $ docker run -d --name mypostgres --rm \
   -e POSTGRES_PASSWORD=1234 \
   postgres:9.6
 
+
+Confluence
+----------
+
+Overview:
+- Dockerfile taken from https://github.com/cptactionhank/docker-atlassian-confluence
+- Based on OpenSUSE and Oracle JDK 8
+
 Achtung:
 - docker-entrypoint.sh muss ausführbar sein
 
-TODO: DB Config
-TODO: Volume permissions
-TODO: JVM Memory Settings
-TODO: Sprachen: genügt "Deutsch (Deutschland)"?
+Build:
+$ docker build -t philip/confluence confluence/
+
+Test:
+$ docker run -d --name myconfluence -p 8090:8090 philip/confluence
+
+Volumes einrichten:
+$ mkdir volumes/confluence-home
+$ mkdir volumes/confluence-logs
+$ chmod 777 volumes/confluence-*
+
+Run:
+$ docker run -d --name myconfluence --rm \
+  -p 8090:8090 \
+  -p 8091:8091 \
+  -v ~/volumes/confluence-home:/var/atlassian/confluence \
+  -v ~/volumes/confluence-logs:/opt/atlassian/confluence/logs \
+  philip/confluence
 
