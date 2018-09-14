@@ -54,6 +54,7 @@ $ docker run -d --name myjira --rm \
   -p 8080:8080 \
   -v ~/volumes/jira-home:/var/atlassian/jira \
   -v ~/volumes/jira-logs:/opt/atlassian/jira/logs \
+  -e X_PROXY_HOST=jira.local \
   philip/jira-software
 
 Run Database:
@@ -91,13 +92,14 @@ $ docker run -d --name myconfluence --rm \
   -p 8091:8091 \
   -v ~/volumes/confluence-home:/var/atlassian/confluence \
   -v ~/volumes/confluence-logs:/opt/atlassian/confluence/logs \
+  -e X_PROXY_HOST=confluence.local \
   philip/confluence
 
 
 Proxy
 -----
 
-$ docker run -d --name proxy --rm \
+$ docker run -d --name myproxy --rm \
   -p 80:80 \
   -p 443:443 \
   -v `pwd`/proxy/conf:/etc/nginx/conf.d:ro \
@@ -106,7 +108,7 @@ $ docker run -d --name proxy --rm \
   nginx:1.15.3-alpine
 
 
-$ docker run -d --name proxy --rm \
+$ docker run -d --name myproxy --rm \
   -p 80:80 \
   -p 443:443 \
   -v `pwd`/proxy/conf:/etc/nginx/conf.d:ro \
@@ -116,4 +118,4 @@ $ docker run -d --name proxy --rm \
   -v `pwd`/proxy/confluence-wartung:/usr/share/nginx/html/confluence-wartung:ro \
   nginx:1.15.3-alpine
 
-$ docker exec -it proxy nginx -s reload
+$ docker exec -it myproxy nginx -s reload
