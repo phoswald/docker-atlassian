@@ -26,7 +26,7 @@ COPY --from=prepare /tmp/jira/ ${JIRA_INSTALL}
 
 # Install Atlassian JIRA and helper tools and setup initial home directory structure.
 RUN set -x \
-#&& zypper in --no-confirm --name --no-recommends xmlstarlet \
+ && zypper in --no-confirm --name --no-recommends xmlstarlet \
 #&& zypper -n clean -a \
  && mkdir -p                "${JIRA_HOME}" \
  && mkdir -p                "${JIRA_HOME}/caches/indexes" \

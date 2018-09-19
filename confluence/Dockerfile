@@ -23,7 +23,7 @@ ENV CONF_VERSION  6.9.1
 ENV CATALINA_OPTS -Xms500m -Xmx2500m -Dwho.is.cool=Philip
 
 #ENV JAVA_CACERTS $JAVA_HOME/lib/security/cacerts
-ENV CERTIFICATE   $CONF_HOME/certificate
+#ENV CERTIFICATE   $CONF_HOME/certificate
 
 COPY --from=prepare /tmp/confluence/ ${CONF_INSTALL}
 
