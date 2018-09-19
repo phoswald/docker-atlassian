@@ -103,19 +103,8 @@ $ docker run -d --name myproxy --rm \
   -p 80:80 \
   -p 443:443 \
   -v `pwd`/proxy/conf:/etc/nginx/conf.d:ro \
-  -v `pwd`/proxy/jira-wartung:/usr/share/nginx/html/jira-wartung:ro \
-  -v `pwd`/proxy/confluence-wartung:/usr/share/nginx/html/confluence-wartung:ro \
-  nginx:1.15.3-alpine
-
-
-$ docker run -d --name myproxy --rm \
-  -p 80:80 \
-  -p 443:443 \
-  -v `pwd`/proxy/conf:/etc/nginx/conf.d:ro \
-  -v `pwd`/proxy/certs/fullchain.pem:/etc/nginx/fullchain.pem:ro \
-  -v `pwd`/proxy/certs/privkey.pem:/etc/nginx/privkey.pem:ro \
-  -v `pwd`/proxy/jira-wartung:/usr/share/nginx/html/jira-wartung:ro \
-  -v `pwd`/proxy/confluence-wartung:/usr/share/nginx/html/confluence-wartung:ro \
+  -v `pwd`/proxy/certs:/etc/nginx/certs:ro \
+  -v `pwd`/proxy/html:/usr/share/nginx/html:ro \
   nginx:1.15.3-alpine
 
 $ docker exec -it myproxy nginx -s reload
