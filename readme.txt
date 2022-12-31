@@ -97,7 +97,7 @@ $ docker run -d --name myconfluence --rm \
   -e X_PROXY_NAME=confluence.local \
   -e X_PROXY_PORT=443 \
   -e X_PROXY_SCHEME=https \
-  -e X_PROXY_SECURE=true \
+  -e X_PROXY_SECURE=false \
   philip/confluence
 
 

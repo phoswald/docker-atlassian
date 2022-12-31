@@ -1,13 +1,8 @@
 FROM opensuse/leap:42.3 AS prepare
 
-COPY dependencies/jdk-8u181-linux-x64.tar.gz /tmp/jdk.tar.gz
+ADD dependencies/jdk-8u181-linux-x64.tar.gz /tmp/jdk
 
 RUN set -x \
- && zypper -n in --name --no-recommends tar
-
-RUN set -x \
- && mkdir /tmp/jdk \
- && tar -xzf /tmp/jdk.tar.gz --directory /tmp/jdk \
  && chown -R root:root /tmp/jdk
 
 ###############################################################################
